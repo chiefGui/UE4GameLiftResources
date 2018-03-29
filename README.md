@@ -12,7 +12,7 @@ The main purpose of this repository--more specifically this README--is basically
 
 1. [Assumptions](#1-assumptions)
 2. Where to start?
-3. [Key Concepts](#3-quick-concepts)
+3. [Quick Concepts](#3-quick-concepts)
 4. [Useful links](#4-useful-links)
 
 ## [1.](#1-assumptions) Assumptions
