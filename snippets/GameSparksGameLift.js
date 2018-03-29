@@ -158,12 +158,12 @@ AWSRequest.prototype.deriveSigningKey = function ()
  
 AWSRequest.prototype.calculateSignature = function ()
 {
-    return HMAC(this.constructStringToSign(), this.deriveSigningKey())
+    return HMAC(this.deriveSigningKey(), this.constructStringToSign())
 };
  
 AWSRequest.prototype.constructAuthorizationHeader = function ()
 {
-    return 'Authorization: AWS4-HMAC-SHA256 Credential=' +
+    return 'AWS4-HMAC-SHA256 Credential=' +
         this.accessKeyID + '/' + this.constructCredentialScope() +
         ', SignedHeaders=' + this.constructSignedHeaders() +
         ', Signature=' + this.calculateSignature();
@@ -182,13 +182,13 @@ AWSRequest.prototype.makeRequest = function (callback)
             headers[header.name] = header.value;
         }
     );
-    headers.Authorization = this.constructAuthorizationHeader().substring('Authorization: '.length);
- 
+    headers.Authorization = this.constructAuthorizationHeader();
+
     var postUrl = 'https://' + this.endpoint + this.canonicalURI;
  
     var httpSender = Spark.getHttp(postUrl);
     httpSender.setHeaders(headers);
-    var awsResponse = httpSender.postString(this.requestPayload);
+    var awsResponse = httpSender.postJson(this.requestPayload);
     
     if (awsResponse.getResponseCode() >= 200 && awsResponse.getResponseCode() < 300) 
     {
